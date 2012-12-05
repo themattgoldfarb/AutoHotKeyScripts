@@ -1,0 +1,12 @@
+### Compiled Source ###
+#######################
+*.dll
+*.pdb
+*.cache
+*.suo
+
+_ReSharper*
+[Oo]bj/
+[Bb]in/
+
+*.png
