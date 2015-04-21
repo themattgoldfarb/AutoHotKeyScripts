@@ -16,14 +16,26 @@
 
 ;
 
++!j:: Send {Down}
++!k:: Send {Up}
+
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+SetTitleMatchMode, 2
 
 
 #q::
-Winset, Style, ^0xC00000, a
+    WinSet, Style, ^0xC00000, a
 return
+
+^!g::
+   WinSet, Style, ^0xC40000, a ; hide title bar
+   ;WinSet, Style, ^0x800000, a ; hide thin-line border
+   ;WinSet, Style, ^0x400000, a ; hide dialog frame
+   ;WinSet, Style, ^0x040000, a ; hide thickframe/sizebox  
+return
+
 
 ; This script modified from the original: http://www.autohotkey.com/docs/scripts/EasyWindowDrag.htm
 ; by The How-To Geek
@@ -147,27 +159,51 @@ return
 
 
 #b::
-	WinGet, Style,Style, ahk_class Chrome_WidgetWin_1, Pandora 
+	WinGet, Style,Style, Pandora
 	If( Style & 0x10000000 = "")
 	{
-	    WinShow, ahk_class Chrome_WidgetWin_1, Pandora
-		WinActivate, ahk_class Chrome_WidgetWin_1, Pandora
+	    WinShow,  Pandora
+		WinActivate, Pandora
 	}
 	Else
 	{
-		WinHide, ahk_class Chrome_WidgetWin_1, Pandora 
+		WinHide, Pandora
 	}
 return
 
 #g::
-	WinGet, Style,Style, ahk_class Chrome_WidgetWin_1, Grooveshark
+	SetTitleMatchMode, 2
+	WinGet, Style,Style,  Grooveshark
 	If( Style & 0x10000000 = "")
 	{
-	    WinShow, ahk_class Chrome_WidgetWin_1, Grooveshark
-	    WinActivate, ahk_class Chrome_WidgetWin_1, Grooveshark
+	    WinShow,  Grooveshark
+	    WinActivate,  Grooveshark
 	}
 	Else
 	{
-		WinHide, ahk_class Chrome_WidgetWin_1, Grooveshark
+		WinHide,  Grooveshark
 	}
 return
+
+;remap the capsLock key to send an esc
+Capslock::Esc
+
+^#t::
+	WinGet, active_id, ID, A
+	ColorWhite = 0xFFFFFF  ; Can be any RGB color (it will be made transparent below).
+	MouseGetPos X, Y 
+	
+	;PixelGetColor Color, %X%, %Y%, RGB
+	
+	WinActivate, ahk_id %active_id%
+	WinSet, TransColor, %ColorWhite%, ahk_id %active_id%
+return
+
+
+
+::ssf::select * from
+::sst::select top 10 * from
+::um::use metrics_datawarehouse;
+::ums::use metrics_staging;
+::uz::use zocdoc;
+
